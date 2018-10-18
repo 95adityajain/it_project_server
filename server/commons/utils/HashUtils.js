@@ -1,4 +1,4 @@
-//import UUID from "uuid";
+import UUID from "uuid";
 import { hashAsync, genSaltAsync, compareAsync } from "../promisify/BcryptPromise";
 
 export default class HashUtils {
@@ -13,9 +13,9 @@ export default class HashUtils {
         return compareAsync (str, hash);
     }
 
-    /*static getRandomString () {
+    static getRandomString () {
         return UUID.v4 ();
-    }*/
+    }
 
     static generatePassword (password) {
         return HashUtils.generateHash (password);

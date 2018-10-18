@@ -20,7 +20,7 @@ const userSchema = new Schema ({
         [USERCONST.FIELD_GENDER]: {type: String, lowercase: true, required: true, enum: [USERCONST.VALUE_GENDER_MALE, USERCONST.VALUE_GENDER_FEMALE, USERCONST.VALUE_GENDER_OTHER]},
         [USERCONST.FIELD_PHOTO]: String,
         [USERCONST.FIELD_PHNO]: {type: String, required: true}
-    },
+    }
 });
 
 userSchema.pre ("save", function(next) {
