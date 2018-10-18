@@ -16,7 +16,9 @@
     "compression": "^1.6.2",
     "express": "^4.14.0",
     "lodash": "^4.17.11",
+    "moment": "^2.22.2",
     "mongoose": "^4.7.7",
+    "uuid": "^3.3.2",
     "winston": "^2.3.1"
   },
   "devDependencies": {

@@ -1,18 +1,15 @@
 import UserModel from "./UserModel";
 //import UserPasswordResetModel from "./UserPasswordResetModel";
+import UserSessionModel from "./UserSessionModel";
 import { CONST, USERCONST } from "../../commons/constants/DataConstants";
 //import ProcessErrorConstants from "../../commons/constants/ErrorConstants";
 import UserConstants from "../../commons/constants/UserConstants";
 import Utils from "../../commons/utils";
 import HashUtils from "../../commons/utils/HashUtils";
 import { OperationalError } from "bluebird";
-//import moment from "moment";
+import moment from "moment";
 
 
-
-/*const KEY_BASE = CONST.REDIS_BASE;
-const SESSION_KEY_BASE = Utils.createRedisKey(KEY_BASE, USERCONST.FIELD_SID);
-const RESET_KEY_BASE = Utils.createRedisKey(KEY_BASE, USERCONST.FIELD_RESET_TOKEN);*/
 
 export default class UserLogic {
 
@@ -21,7 +18,7 @@ export default class UserLogic {
         return newUser.save();
     }
 
-    /*static getDocument(email) {
+    static getDocument(email) {
         return UserModel.getDocByEmail(email).then((doc) => {
             return doc;
         });
@@ -33,13 +30,13 @@ export default class UserLogic {
 
     static updateDocument(updatedDoc) {
         return updatedDoc.save();
-    }*/
+    }
 
     static isEmailExists(email) {
         return UserModel.isEmailExists(email);
     }
 
-    /*static getField(email, fieldName) {
+    static getField(email, fieldName) {
         return UserModel.getFieldByEmail(email, fieldName);
     }
 
@@ -56,17 +53,20 @@ export default class UserLogic {
     }
 
     static setSession(email, sessionId) {
-        return UserCache.setKey(Utils.createRedisKey(SESSION_KEY_BASE, email), sessionId);
+        const expiresAt = moment().add(USERCONST.VALUE_SESSION_EXPIRY_SECONDS, "s");
+        return UserSessionModel.upsert(email, sessionId, expiresAt);
     }
 
     static getSession(email) {
-        return UserCache.getKey(Utils.createRedisKey(SESSION_KEY_BASE, email));
+        return UserSessionModel.getSessionId(email);
     }
 
     static deleteSession(email) {
-        return UserCache.removeKey(Utils.createRedisKey(SESSION_KEY_BASE, email));
+        return UserSessionModel.delete(email)
+        .then(() => true)
+        .catch(() => false);
     }
-*/
+
     /*static setResetPasswordToken(email) {
         const resetToken = HashUtils.getRandomString();
         return UserCache.setKeyWithExpiry(Utils.createRedisKey(RESET_KEY_BASE, email), resetToken, USERCONST.VALUE_RESET_TOKEN_EXPIRY_SECONDS).then((status) => {
@@ -100,14 +100,14 @@ export default class UserLogic {
         });
     }*/
 
-    /*static generateSession(email) {
+    static generateSession(email) {
         const sid = HashUtils.getRandomString();
         return UserLogic.setSession(email, sid).then(() => {
             return sid;
         });
-    }*/
+    }
 
-    /*static verifyPassword(email, password) {
+    static verifyPassword(email, password) {
         return UserLogic.getField(email, USERCONST.FIELD_PASSWORD).then((hashedPassword) => {
             return HashUtils.comparePassword(password, hashedPassword);
         }).then((isValidPassword) => {
@@ -122,5 +122,5 @@ export default class UserLogic {
         return HashUtils.generatePassword(newPassword).then((hashedPassword) => {
             return UserLogic.updateField(email, USERCONST.FIELD_PASSWORD, hashedPassword);
         });
-    }*/
+    }
 }

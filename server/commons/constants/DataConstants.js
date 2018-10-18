@@ -4,7 +4,7 @@ export const CONST = {
 
 export const USERCONST = {
     BASE: "users",
-    RESET_TOKEN_BASE: "users_reset_token",
+    SESSION_BASE: "users_session",
 
     FIELD_ID: "_id",
     FIELD_EMAIL: "email",
@@ -16,10 +16,10 @@ export const USERCONST = {
     FIELD_PHOTO: "photo",
     FIELD_PHNO: "phone_number",
 
-    FIELD_RESET_TOKEN: "reset_token",
+    FIELD_SESSION_ID: "sid",
     FIELD_EXPIRE_AT: "expireAt",
 
-    VALUE_RESET_TOKEN_EXPIRY_SECONDS: 43200,
+    VALUE_SESSION_EXPIRY_SECONDS: 43200,
     VALUE_GENDER_MALE: "male",
     VALUE_GENDER_FEMALE: "female",
     VALUE_GENDER_OTHER: "other",
