@@ -99,3 +99,11 @@ export const authenticateLoggedInUser = (req, res, next) => {
         return Utils.log("error", err);
     });
 };
+
+export const refershSession = (req, res, next) => {
+    const email = req.query.email;
+    const sid = req.query.sid;
+    UserLogic.setSession(email, sid).then(() => {
+        return next();
+    });
+};

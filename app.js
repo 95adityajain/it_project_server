@@ -6,6 +6,7 @@ import compression from "compression";
 import express from "express";
 import http from "http";
 import Promise from "bluebird";
+import cors from "cors";
 
 import mongoose from "./server/commons/client/MongooseClient";
 
@@ -32,6 +33,11 @@ const app = new express ();
 const httpServer = http.Server (app);
 
 
+if(config.env == "development") {
+	app.use(cors({
+		origin: "http://localhost:8100"
+	}));
+}
 
 /**
  * Express configuration

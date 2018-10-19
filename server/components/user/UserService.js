@@ -43,7 +43,7 @@ export const login = (req, res) => {
                 });
             }
             return UserLogic.setSession(email, sessionId).then(() => {
-                return res.status(200).json({email, sessionId, expiresAfter: USERCONST.VALUE_SESSION_EXPIRY_SECONDS});
+                return res.status(200).json({email, [USERCONST.FIELD_SESSION_ID]:sessionId, expiresAfter: USERCONST.VALUE_SESSION_EXPIRY_SECONDS});
             });
         });
     }).catch(OperationalError,(err) => {
